@@ -3,6 +3,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const moviesRoutes = require("./routes/moviesRoutes");
+const favoritesRoutes = require("./routes/favoritesRoutes");
+
+
 
 const app = express();
 app.use(cors());
@@ -10,6 +13,7 @@ app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/movies", moviesRoutes);
+app.use("/api/favorites", favoritesRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {
