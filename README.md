@@ -19,3 +19,9 @@ GET /api/movies/now_playing — en cartelera
 GET /api/movies/genres — géneros de películas
 
 GET /api/movies/similar/:id — similares a una película
+
+POST /api/favorites - Crear un favorito
+
+GET /api/favorits - Listar favoritos
+
+DELETE /api/favorites/:id Eliminar favorito por id
