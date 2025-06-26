@@ -1,11 +1,14 @@
-require("dotenv").config(); // ← siempre al tope del archivo
+require("dotenv").config();
 
 const axios = require("axios");
 const API_KEY = process.env.TMDB_API_KEY;
 const BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN; // Opcional
 const BASE_URL = "https://api.themoviedb.org/3";
 
-// Axios config para Bearer Token si lo necesitas
+if (!API_KEY) {
+  throw new Error("TMDB_API_KEY no está definida en .env");
+}
+
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: BEARER_TOKEN
@@ -16,58 +19,101 @@ const axiosInstance = axios.create({
     : {},
 });
 
+// Helper para loguear errores de API
+function handleError(error) {
+  if (error.response) {
+    console.error("TMDb Error:", error.response.status, error.response.data);
+    throw new Error(error.response.data.status_message || "TMDb API error");
+  } else {
+    console.error("TMDb Error:", error.message);
+    throw new Error("TMDb API error");
+  }
+}
+
 exports.getPopular = async () => {
-  const res = await axiosInstance.get(`/movie/popular`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/movie/popular`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getById = async (id) => {
-  const res = await axiosInstance.get(`/movie/${id}`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data;
+  try {
+    const res = await axiosInstance.get(`/movie/${id}`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.searchMovies = async (query) => {
-  const res = await axiosInstance.get(`/search/movie`, {
-    params: { api_key: API_KEY, query },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/search/movie`, {
+      params: { api_key: API_KEY, query },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getTopRated = async () => {
-  const res = await axiosInstance.get(`/movie/top_rated`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/movie/top_rated`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getUpcoming = async () => {
-  const res = await axiosInstance.get(`/movie/upcoming`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/movie/upcoming`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getNowPlaying = async () => {
-  const res = await axiosInstance.get(`/movie/now_playing`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/movie/now_playing`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getGenres = async () => {
-  const res = await axiosInstance.get(`/genre/movie/list`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.genres;
+  try {
+    const res = await axiosInstance.get(`/genre/movie/list`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.genres;
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 exports.getSimilar = async (id) => {
-  const res = await axiosInstance.get(`/movie/${id}/similar`, {
-    params: { api_key: API_KEY },
-  });
-  return res.data.results;
+  try {
+    const res = await axiosInstance.get(`/movie/${id}/similar`, {
+      params: { api_key: API_KEY },
+    });
+    return res.data.results;
+  } catch (error) {
+    handleError(error);
+  }
 };
